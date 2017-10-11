@@ -3,31 +3,38 @@ var auth = require('./auth')
 var API = process.env.API_ENDPOINT || 'https://admin.apps.js.la'
 
 module.exports = {
+  getHost,
+  listHosts,
   getSpeaker,
   listSpeakers
 }
 
-function listSpeakers (cb) {
-  var url = `${API}/api/list/speaker`
-  auth.get(url, function (err, speakersById) {
+function getHost (id, cb) { get('host', id, cb) }
+function listHosts (cb) { list('host', cb) }
+function getSpeaker (id, cb) { get('speaker', id, cb) }
+function listSpeakers (cb) { list('speaker', cb) }
+
+function list (type, cb) {
+  var url = `${API}/api/list/${type}`
+  auth.get(url, function (err, itemsById) {
     if (err) return cb(err)
 
-    cb(null, Object.keys(speakersById).reduce(function (memo, key) {
-      speakersById[key].id = key
-      speakersById[key].dates = Object.values(speakersById[key].dates || {})
-      memo.push(speakersById[key])
+    cb(null, Object.keys(itemsById).reduce(function (memo, key) {
+      itemsById[key].id = key
+      itemsById[key].dates = Object.values(itemsById[key].dates || {})
+      memo.push(itemsById[key])
 
       return memo
     }, []))
   })
 }
 
-function getSpeaker (id, cb) {
-  var url = `${API}/api/list/speaker`
-  auth.get(url, function (err, speakersById) {
+function get (type, id, cb) {
+  var url = `${API}/api/list/${type}`
+  auth.get(url, function (err, itemsById) {
     if (err) return cb(err)
 
-    speakersById[id].dates = Object.values(speakersById[id].dates || {})
-    cb(null, speakersById[id])
+    itemsById[id].dates = Object.values(itemsById[id].dates || {})
+    cb(null, itemsById[id])
   })
 }
