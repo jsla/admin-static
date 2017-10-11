@@ -6,13 +6,17 @@ module.exports = {
   getHost,
   listHosts,
   getSpeaker,
-  listSpeakers
+  listSpeakers,
+  getSponsor,
+  listSponsors
 }
 
 function getHost (id, cb) { get('host', id, cb) }
 function listHosts (cb) { list('host', cb) }
 function getSpeaker (id, cb) { get('speaker', id, cb) }
 function listSpeakers (cb) { list('speaker', cb) }
+function getSponsor (id, cb) { get('sponsor', id, cb) }
+function listSponsors (cb) { list('sponsor', cb) }
 
 function list (type, cb) {
   var url = `${API}/api/list/${type}`
