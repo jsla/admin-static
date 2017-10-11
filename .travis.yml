@@ -1,0 +1,16 @@
+before_script:
+ - npm run build
+language: node_js
+node_js:
+- node
+notifications:
+deploy:
+  - provider: surge
+    project: ./public/
+    domain: https://admin.js.la
+    skip_cleanup: true
+env:
+  global:
+    - API=https://admin.apps.js.la
+    - secure: "Kf4qivsZYUHKtVD5ATD9HsZChr86LcLK5fSpnkAeMLzuhP+Dx/cnVRv+jrF025o/rtETy25fFRHeL36TT10MMlWmt1WDq6Psok42hGIWwrqGrpqGYDgU4izg7RW6JvOGtqGJbaemKljcosfaC/xw+KUsC0acUaZYZ9/5zjyqDX98d7sRtV10x3sWo5081lQV6qohss96DqJNf9qpt3H2t/aLpuAx8FqFrUkQijH4Vu6yqlyScGEQACfnoD7XuQuhI2QczpFzveChSdNU6T6NyN5lqLygVqvAzTUuz2wmoY5n5NZig7GljaCWX6mWo/lsWs9eddt0jH/0yQciq22sjJ91H8mKWcYU1Y2htDVP6dUOjdwDEPEWX7s4lr+/0LVv993byUo5odOp6LmMASlJ6rbw4vBEzAjZ5CN3a6x6NNolLEk0bvTTvJva2ayyB18zrjhF9kb55UkihZNFODZ8BNRsrbzr48krEJrK+JlIVTxMxwOS7QPKQ2G9NEYYWf4roO82JaIupdq5kD5UeoVxJOl0DH1DB92w8ebpODxmawZXtitMMyVSUpHhsiVTm7N+sxkpDjQm4+2Bn9GnRs5DluR5uP3RcMHj9RK99wfJfVfuwO7W1Hbxh32yyfH4b1x/L6h2/lB1iBeXn+zo5o4AhrH1M5/Pw/TmOfGElDVftkk="
+    - secure: "KMxClFHJ03esmtjI9FFHH2Upp+FIZGpo0kiu2vkCznCTDwLIoMaAps2kgqCbOvEWlZ1iDWUxTW/qrO/4g5LPQM3fPcXW4bHrG/p31j79xdp5idocmIvCE0lov0AVHEkN9tKKFujS5w7c2coM0EcD5Yc+fBWVhMXPCv2zMfYWuGShUUAhhaO+nklDbczg32KCQGB3fSzYnFal4vYrSY17Ocqy2OsPfzxXJbpFuqu+JXr9L0T1MSgj2nOfeeywUg3G050dyuBE50DV36CF+RT0r+v2YiC2/ega3+rbZsmbVycEU9KHuoxlLTyiIX3feer+e95fZeQJwq31MP796WnlwczuTrfNaC8CNl1HsVcdVU07jJSbSqn4jWr4R5yGQUBz09G0arENvkihSF3D3fUabF6jbl2XGBI9+UXHg6dmzN6vJ9AmiJki6T3j6ysCgk8KSdOifkRCpvIMKOfPN7GFzVSVxOUAuP5SaJYDslJbagVpXFiXgB4VN8oTOov57kyw+yYxhNERqGeaSNP0dFz9LFR1+Xf5B+RQr88M2MYcsdoENp10vz48aCxe7O8GTiSL8nCg3/KCIuOigOxH/L/6rZySHOXpwyBj/YUgxwwK4UD9KNkX+395NuPRJSzcSPJTP8hNyQ8CPV6TwQa4fSON+CFF/Y+t+q1ZH8afhRs5R00="
