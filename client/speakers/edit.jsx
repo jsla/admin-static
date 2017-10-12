@@ -167,7 +167,6 @@ module.exports = createReactClass({
     speaker[event.target.name] = event.target.value
 
     this.setState({ speaker })
-
   },
 
   updateSpeaker (event) {
@@ -186,5 +185,5 @@ module.exports = createReactClass({
         _status: 'READY'
       })
     })
-  },
+  }
 })
