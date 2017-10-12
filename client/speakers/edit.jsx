@@ -46,35 +46,40 @@ module.exports = createReactClass({
           name='name'
           margin='normal'
           style={{marginRight: 10}}
-          value={this.state.speaker.name || ''} />
+          value={this.state.speaker.name || ''}
+          onChange={this.editSpeaker} />
 
         <TextField
           label='Email'
           name='email'
           margin='normal'
           style={{marginRight: 10}}
-          value={this.state.speaker.email || ''} />
+          value={this.state.speaker.email || ''}
+          onChange={this.editSpeaker} />
 
         <TextField
           label='Github'
           name='github'
           margin='normal'
           style={{marginRight: 10}}
-          value={this.state.speaker.github || ''} />
+          value={this.state.speaker.github || ''}
+          onChange={this.editSpeaker} />
 
         <TextField
           label='Twitter'
           name='twitter'
           margin='normal'
           style={{marginRight: 10}}
-          value={this.state.speaker.twitter || ''} />
+          value={this.state.speaker.twitter || ''}
+          onChange={this.editSpeaker} />
 
         <TextField
           label='Avatar'
           name='avatar'
           margin='normal'
           style={{marginRight: 10}}
-          value={this.state.speaker.avatar || ''} />
+          value={this.state.speaker.avatar || ''}
+          onChange={this.editSpeaker} />
 
         <br />
 
@@ -83,7 +88,8 @@ module.exports = createReactClass({
           name='title'
           margin='normal'
           fullWidth
-          value={this.state.speaker.title || ''} />
+          value={this.state.speaker.title || ''}
+          onChange={this.editSpeaker} />
 
         <TextField
           label='Abstract'
@@ -91,7 +97,8 @@ module.exports = createReactClass({
           margin='normal'
           multiline
           fullWidth
-          value={this.state.speaker.abstract || ''} />
+          value={this.state.speaker.abstract || ''}
+          onChange={this.editSpeaker} />
 
         <TextField
           label='Dates Available'
@@ -104,6 +111,13 @@ module.exports = createReactClass({
 
         <Button raised color='default' href={'#/speakers'} >
           Back
+        </Button>
+
+        <Button
+          raised
+          color='primary'
+          onClick={this.updateSpeaker} >
+          Update
         </Button>
       </div>
     )
@@ -145,6 +159,31 @@ module.exports = createReactClass({
       }
 
       this.setState({speaker, _status: 'READY'})
+    })
+  },
+
+  editSpeaker (event) {
+    var speaker = this.state.speaker
+    speaker[event.target.name] = event.target.value
+
+    this.setState({ speaker })
+  },
+
+  updateSpeaker (event) {
+    var speaker = this.state.speaker
+
+    this.setState({_status: 'LOADING'})
+
+    api.updateSpeaker(speaker, (err, updatedSpeaker) => {
+      if (err) {
+        this.setState({_status: 'ERROR'})
+        return console.error(err)
+      }
+
+      this.setState({
+        speaker: updatedSpeaker,
+        _status: 'READY'
+      })
     })
   }
 })
