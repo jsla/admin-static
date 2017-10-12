@@ -36,14 +36,14 @@ function list (type, cb) {
 }
 
 function get (type, id, cb) {
-  var url = `${API}/api/list/${type}`
-  auth.get(url, function (err, itemsById) {
+  var url = `${API}/api/get/${type}/${id}`
+  auth.get(url, function (err, item) {
     if (err) return cb(err)
 
-    itemsById[id].id = id
+    item.id = id
+    item.dates = Object.values(item.dates || {})
 
-    itemsById[id].dates = Object.values(itemsById[id].dates || {})
-    cb(null, itemsById[id])
+    cb(null, item)
   })
 }
 
