@@ -9,12 +9,7 @@ import createReactClass from 'create-react-class'
 
 import api from '../api'
 import navigate from '../navigate'
-
-var showDates = [
-  '2017-10-26',
-  '2018-01-25',
-  '2018-02-22'
-]
+import showDates from '../show-dates'
 
 module.exports = createReactClass({
   getInitialState () {
