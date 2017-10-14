@@ -41,6 +41,16 @@ module.exports = createReactClass({
 
     return (
       <div>
+
+        <TextField
+          label='Booked Shows'
+          onChange={this.changeHost}
+          name='bookedShows'
+          margin='normal'
+          multiline
+          fullWidth
+          value={this.state.host.bookedShows || ''} />
+
         <TextField
           label='Organization'
           onChange={this.changeHost}

@@ -84,6 +84,13 @@ module.exports = createReactClass({
               onClick={this.handleDrawerClose}>
               <ListItemText primary='Sponsors' />
             </ListItem>
+            <ListItem
+              button
+              component='a'
+              href='#/shows'
+              onClick={this.handleDrawerClose}>
+              <ListItemText primary='Shows' />
+            </ListItem>
           </List>
           <Divider />
         </Drawer>

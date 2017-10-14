@@ -41,6 +41,16 @@ module.exports = createReactClass({
 
     return (
       <div>
+
+        <TextField
+          label='Booked Shows'
+          onChange={this.changeSponsor}
+          name='bookedShows'
+          margin='normal'
+          multiline
+          fullWidth
+          value={this.state.sponsor.bookedShows || ''} />
+
         <TextField
           label='Organization'
           name='organization'
