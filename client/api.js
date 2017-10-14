@@ -10,11 +10,13 @@ module.exports = {
   getSponsor,
   listSponsors,
   updateSpeaker,
-  updateSponsor
+  updateSponsor,
+  updateHost
 }
 
 function getHost (id, cb) { get('host', id, cb) }
 function listHosts (cb) { list('host', cb) }
+function updateHost (host, cb) { update('host', host, cb) }
 function getSpeaker (id, cb) { get('speaker', id, cb) }
 function listSpeakers (cb) { list('speaker', cb) }
 function updateSpeaker (speaker, cb) { update('speaker', speaker, cb) }

@@ -43,6 +43,7 @@ module.exports = createReactClass({
       <div>
         <TextField
           label='Organization'
+          onChange={this.changeHost}
           name='organization'
           margin='normal'
           style={{marginRight: 10}}
@@ -50,6 +51,7 @@ module.exports = createReactClass({
 
         <TextField
           label='Name'
+          onChange={this.changeHost}
           name='name'
           margin='normal'
           style={{marginRight: 10}}
@@ -57,6 +59,7 @@ module.exports = createReactClass({
 
         <TextField
           label='Email'
+          onChange={this.changeHost}
           name='email'
           margin='normal'
           style={{marginRight: 10}}
@@ -64,6 +67,7 @@ module.exports = createReactClass({
 
         <TextField
           label='Capacity'
+          onChange={this.changeHost}
           name='capacity'
           margin='normal'
           style={{marginRight: 10}}
@@ -71,6 +75,7 @@ module.exports = createReactClass({
 
         <TextField
           label='Microphone'
+          onChange={this.changeHost}
           name='hasMicrophone'
           margin='normal'
           style={{marginRight: 10}}
@@ -78,6 +83,7 @@ module.exports = createReactClass({
 
         <TextField
           label='Projector'
+          onChange={this.changeHost}
           name='hasProjector'
           margin='normal'
           style={{marginRight: 10}}
@@ -85,6 +91,7 @@ module.exports = createReactClass({
 
         <TextField
           label='Refreshments'
+          onChange={this.changeHost}
           name='refreshments'
           margin='normal'
           style={{marginRight: 10}}
@@ -92,6 +99,7 @@ module.exports = createReactClass({
 
         <TextField
           label='Logo'
+          onChange={this.changeHost}
           name='logo'
           margin='normal'
           style={{marginRight: 10}}
@@ -99,6 +107,7 @@ module.exports = createReactClass({
 
         <TextField
           label='Link'
+          onChange={this.changeHost}
           name='link'
           margin='normal'
           style={{marginRight: 10}}
@@ -106,6 +115,7 @@ module.exports = createReactClass({
 
         <TextField
           label='Address'
+          onChange={this.changeHost}
           name='address'
           margin='normal'
           style={{marginRight: 10}}
@@ -115,6 +125,7 @@ module.exports = createReactClass({
 
         <TextField
           label='Parking Info'
+          onChange={this.changeHost}
           name='parking'
           margin='normal'
           fullWidth
@@ -122,6 +133,7 @@ module.exports = createReactClass({
 
         <TextField
           label='Goal'
+          onChange={this.changeHost}
           name='goal'
           margin='normal'
           multiline
@@ -139,6 +151,14 @@ module.exports = createReactClass({
 
         <Button raised color='default' href={'#/hosts'} >
           Back
+        </Button>
+
+        <Button
+          raised
+          color='primary'
+          onClick={this.updateHost}
+          style={{marginLeft: 10}} >
+          Update
         </Button>
       </div>
     )
@@ -180,6 +200,34 @@ module.exports = createReactClass({
       }
 
       this.setState({host, _status: 'READY'})
+    })
+  },
+
+  changeHost (evt) {
+    var name = evt.target.name
+    var value = evt.target.value
+
+    var host = this.state.host
+    host[name] = value
+
+    this.setState({host})
+  },
+
+  updateHost (event) {
+    var host = this.state.host
+
+    this.setState({_status: 'LOADING'})
+
+    api.updateHost(host, (err, updatedHost) => {
+      if (err) {
+        this.setState({_status: 'ERROR'})
+        return console.error(err)
+      }
+
+      this.setState({
+        host: updatedHost,
+        _status: 'READY'
+      })
     })
   }
 })
