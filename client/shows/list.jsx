@@ -58,16 +58,26 @@ module.exports = createReactClass({
                 hover
                 style={{cursor: 'pointer'}} >
                 <TableCell>{exp.date}</TableCell>
-                <TableCell>{exp.host && exp.host.organization}</TableCell>
-                <TableCell>{exp.speaker1 && exp.speaker1.name}</TableCell>
-                <TableCell>{exp.speaker2 && exp.speaker2.name}</TableCell>
-                <TableCell>{exp.sponsor1 && exp.sponsor1.organization}</TableCell>
-                <TableCell>{exp.sponsor2 && exp.sponsor2.organization}</TableCell>
+                <TableCell>{this.renderContributor('hosts', exp.host)}</TableCell>
+                <TableCell>{this.renderContributor('speakers', exp.speaker1)}</TableCell>
+                <TableCell>{this.renderContributor('speakers', exp.speaker2)}</TableCell>
+                <TableCell>{this.renderContributor('sponsors', exp.sponsor1)}</TableCell>
+                <TableCell>{this.renderContributor('sponsors', exp.sponsor2)}</TableCell>
               </TableRow>
             )) }
           </TableBody>
         </Table>
       </Paper>
+    )
+  },
+
+  renderContributor (type, contributor) {
+    if (!contributor) return <span />
+
+    return (
+      <a href={`#/${type}/edit/${contributor.id}`}>
+        {contributor.organization || contributor.name}
+      </a>
     )
   },
 
