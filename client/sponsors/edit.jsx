@@ -46,6 +46,7 @@ module.exports = createReactClass({
           name='organization'
           margin='normal'
           style={{marginRight: 10}}
+          onChange={this.changeSponsor}
           value={this.state.sponsor.organization || ''} />
 
         <TextField
@@ -53,6 +54,7 @@ module.exports = createReactClass({
           name='name'
           margin='normal'
           style={{marginRight: 10}}
+          onChange={this.changeSponsor}
           value={this.state.sponsor.name || ''} />
 
         <TextField
@@ -60,6 +62,7 @@ module.exports = createReactClass({
           name='email'
           margin='normal'
           style={{marginRight: 10}}
+          onChange={this.changeSponsor}
           value={this.state.sponsor.email || ''} />
 
         <TextField
@@ -67,6 +70,7 @@ module.exports = createReactClass({
           name='slack'
           margin='normal'
           style={{marginRight: 10}}
+          onChange={this.changeSponsor}
           value={this.state.sponsor.slack || ''} />
 
         <TextField
@@ -74,6 +78,7 @@ module.exports = createReactClass({
           name='desiredMonths'
           margin='normal'
           style={{marginRight: 10}}
+          onChange={this.changeSponsor}
           value={this.state.sponsor.desiredMonths || ''} />
 
         <TextField
@@ -81,6 +86,7 @@ module.exports = createReactClass({
           name='logo'
           margin='normal'
           style={{marginRight: 10}}
+          onChange={this.changeSponsor}
           value={this.state.sponsor.logo || ''} />
 
         <TextField
@@ -88,6 +94,7 @@ module.exports = createReactClass({
           name='link'
           margin='normal'
           style={{marginRight: 10}}
+          onChange={this.changeSponsor}
           value={this.state.sponsor.link || ''} />
 
         <br />
@@ -98,6 +105,7 @@ module.exports = createReactClass({
           margin='normal'
           multiline
           fullWidth
+          onChange={this.changeSponsor}
           value={this.state.sponsor.goal || ''} />
 
         <TextField
@@ -111,6 +119,14 @@ module.exports = createReactClass({
 
         <Button raised color='default' href={'#/sponsors'} >
           Back
+        </Button>
+
+        <Button
+          raised
+          color='primary'
+          onClick={this.updateSponsor}
+          style={{marginLeft: 10}} >
+          Update
         </Button>
       </div>
     )
@@ -152,6 +168,34 @@ module.exports = createReactClass({
       }
 
       this.setState({sponsor, _status: 'READY'})
+    })
+  },
+
+  changeSponsor (evt) {
+    var name = evt.target.name
+    var value = evt.target.value
+
+    var sponsor = this.state.sponsor
+    sponsor[name] = value
+
+    this.setState({sponsor})
+  },
+
+  updateSponsor () {
+    var sponsor = this.state.sponsor
+
+    this.setState({_status: 'LOADING'})
+
+    api.updateSponsor(sponsor, (err, updatedSponsor) => {
+      if (err) {
+        this.setState({_status: 'ERROR'})
+        return console.error(err)
+      }
+
+      this.setState({
+        sponsor: updatedSponsor,
+        _status: 'READY'
+      })
     })
   }
 })

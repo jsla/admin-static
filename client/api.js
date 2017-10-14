@@ -9,7 +9,8 @@ module.exports = {
   listSpeakers,
   getSponsor,
   listSponsors,
-  updateSpeaker
+  updateSpeaker,
+  updateSponsor
 }
 
 function getHost (id, cb) { get('host', id, cb) }
@@ -19,6 +20,7 @@ function listSpeakers (cb) { list('speaker', cb) }
 function updateSpeaker (speaker, cb) { update('speaker', speaker, cb) }
 function getSponsor (id, cb) { get('sponsor', id, cb) }
 function listSponsors (cb) { list('sponsor', cb) }
+function updateSponsor (sponsor, cb) { update('sponsor', sponsor, cb) }
 
 function list (type, cb) {
   var url = `${API}/api/list/${type}`
