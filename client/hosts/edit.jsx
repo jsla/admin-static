@@ -147,6 +147,15 @@ module.exports = createReactClass({
           fullWidth
           value={months.join(', ') || ''} />
 
+        <TextField
+          label='Notes'
+          onChange={this.changeHost}
+          name='notes'
+          margin='normal'
+          multiline
+          fullWidth
+          value={this.state.host.notes || ''} />
+
         <br />
 
         <Button raised color='default' href={'#/hosts'} >

@@ -107,6 +107,15 @@ module.exports = createReactClass({
           fullWidth
           value={months.join(', ') || ''} />
 
+        <TextField
+          label='Notes'
+          onChange={this.editSpeaker}
+          name='notes'
+          margin='normal'
+          multiline
+          fullWidth
+          value={this.state.speaker.notes || ''} />
+
         <br />
 
         <Button raised color='default' href={'#/speakers'} >

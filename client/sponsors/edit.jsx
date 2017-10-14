@@ -115,6 +115,15 @@ module.exports = createReactClass({
           fullWidth
           value={months.join(', ') || ''} />
 
+        <TextField
+          label='Notes'
+          onChange={this.changeSponsor}
+          name='notes'
+          margin='normal'
+          multiline
+          fullWidth
+          value={this.state.sponsor.notes || ''} />
+
         <br />
 
         <Button raised color='default' href={'#/sponsors'} >
