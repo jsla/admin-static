@@ -5,7 +5,7 @@ import navigate from './navigate'
 
 var router = module.exports = Router()
 
-router.set('/', restrict(require('./speakers/list.jsx')))
+router.set('/', restrict(require('./shows/list.jsx')))
 
 router.set('/hosts', restrict(require('./hosts/list.jsx')))
 router.set('/hosts/edit/:name', restrict(require('./hosts/edit.jsx')))
