@@ -1,7 +1,9 @@
 import React from 'react'
 import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
+import Switch from 'material-ui/Switch'
 import Typography from 'material-ui/Typography'
+import { FormControlLabel, FormGroup } from 'material-ui/Form'
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table'
 import { CircularProgress } from 'material-ui/Progress'
 import createReactClass from 'create-react-class'
@@ -13,6 +15,10 @@ module.exports = createReactClass({
   getInitialState () {
     return {
       speakers: [],
+      filters: {
+        hideBooked: true,
+        hideArchived: true
+      },
       _status: 'READY'
     }
   },
@@ -27,7 +33,7 @@ module.exports = createReactClass({
         <h1>Speakers List</h1>
 
         { {
-          'READY': this.renderTable,
+          'READY': this.renderList,
           'ERROR': this.renderError,
           'LOADING': this.renderLoading
         }[this.state._status]() }
@@ -35,7 +41,47 @@ module.exports = createReactClass({
     )
   },
 
+  renderList () {
+    return (
+      <div>
+        {this.renderFilters()}
+        {this.renderTable()}
+      </div>
+    )
+  },
+
+  renderFilters () {
+    var filters = this.state.filters
+
+    return (
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Switch
+              name='hideBooked'
+              checked={filters.hideBooked}
+              onChange={this.changeFilter}
+            />
+          }
+          label='Hide Booked'
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              name='hideArchived'
+              checked={filters.hideArchived}
+              onChange={this.changeFilter}
+            />
+          }
+          label='Hide Archived'
+        />
+      </FormGroup>
+    )
+  },
+
   renderTable () {
+    var speakers = this.filterSpeakers(this.state.speakers)
+
     return (
       <Paper style={{overflowX: 'scroll'}}>
         <Table>
@@ -47,7 +93,7 @@ module.exports = createReactClass({
             </TableRow>
           </TableHead>
           <TableBody>
-            { this.state.speakers.map((speaker) => (
+            { speakers.map((speaker) => (
               <TableRow
                 key={speaker.id}
                 hover
@@ -100,11 +146,29 @@ module.exports = createReactClass({
         return console.error(err)
       }
 
-      this.setState({speakers: speakers, _status: 'READY'})
+      this.setState({ speakers: speakers, _status: 'READY' })
     })
+  },
+
+  filterSpeakers (speakers) {
+    var {hideBooked, hideArchived} = this.state.filters
+    return speakers
+      .sort(function (a, b) { return a.name > b.name })
+      .filter(function (speaker) {
+        var visible = true
+        if (hideBooked && speaker.bookedShows) visible = false
+        if (hideArchived && speaker.isArchived) visible = false
+        return visible
+      })
   },
 
   editSpeaker (name) {
     navigate(`/speakers/edit/${name}`)
+  },
+
+  changeFilter (evt, enabled) {
+    var {filters} = this.state
+    filters[evt.target.name] = enabled
+    this.setState({filters})
   }
 })
