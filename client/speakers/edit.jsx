@@ -1,10 +1,12 @@
 import React from 'react'
 import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
+import Switch from 'material-ui/Switch'
 import TextField from 'material-ui/TextField'
 import Typography from 'material-ui/Typography'
 import createReactClass from 'create-react-class'
 import { CircularProgress } from 'material-ui/Progress'
+import { FormControlLabel } from 'material-ui/Form'
 
 import api from '../api'
 
@@ -41,6 +43,16 @@ module.exports = createReactClass({
 
     return (
       <div>
+        <FormControlLabel
+          control={
+            <Switch
+              name='isArchived'
+              checked={this.state.speaker.isArchived}
+              onChange={this.editSpeaker}
+            />
+          }
+          label='Archived'
+        />
 
         <TextField
           label='Booked Shows'
@@ -135,7 +147,8 @@ module.exports = createReactClass({
         <Button
           raised
           color='primary'
-          onClick={this.updateSpeaker} >
+          onClick={this.updateSpeaker}
+          style={{marginLeft: 10}} >
           Update
         </Button>
       </div>
