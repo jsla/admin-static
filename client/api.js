@@ -12,7 +12,8 @@ module.exports = {
   updateSpeaker,
   updateSponsor,
   updateHost,
-  list
+  list,
+  update
 }
 
 function getHost (id, cb) { get('host', id, cb) }
