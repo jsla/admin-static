@@ -2,7 +2,11 @@ import map from 'map-async'
 import React from 'react'
 import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
+import Avatar from 'material-ui/Avatar'
+import AddIcon from 'material-ui-icons/Add'
 import Typography from 'material-ui/Typography'
+import Dialog, { DialogTitle } from 'material-ui/Dialog'
+import List, { ListItem, ListItemAvatar } from 'material-ui/List'
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table'
 import { CircularProgress } from 'material-ui/Progress'
 import createReactClass from 'create-react-class'
@@ -15,6 +19,9 @@ module.exports = createReactClass({
   getInitialState () {
     return {
       shows: [],
+      allSpeakers: [],
+      allSponsors: [],
+      allHosts: [],
       _status: 'READY'
     }
   },
@@ -29,10 +36,19 @@ module.exports = createReactClass({
         <h1>Shows List</h1>
 
         { {
-          'READY': this.renderTable,
+          'READY': this.renderMain,
           'ERROR': this.renderError,
           'LOADING': this.renderLoading
         }[this.state._status]() }
+      </div>
+    )
+  },
+
+  renderMain () {
+    return (
+      <div>
+        { this.renderTable() }
+        { this.renderDialog() }
       </div>
     )
   },
@@ -58,11 +74,11 @@ module.exports = createReactClass({
                 hover
                 style={{cursor: 'pointer'}} >
                 <TableCell>{exp.date}</TableCell>
-                <TableCell>{this.renderContributor('hosts', exp.host)}</TableCell>
-                <TableCell>{this.renderContributor('speakers', exp.speaker1)}</TableCell>
-                <TableCell>{this.renderContributor('speakers', exp.speaker2)}</TableCell>
-                <TableCell>{this.renderContributor('sponsors', exp.sponsor1)}</TableCell>
-                <TableCell>{this.renderContributor('sponsors', exp.sponsor2)}</TableCell>
+                <TableCell>{this.renderContributor('hosts', exp.host, exp.date)}</TableCell>
+                <TableCell>{this.renderContributor('speakers', exp.speaker1, exp.date)}</TableCell>
+                <TableCell>{this.renderContributor('speakers', exp.speaker2, exp.date)}</TableCell>
+                <TableCell>{this.renderContributor('sponsors', exp.sponsor1, exp.date)}</TableCell>
+                <TableCell>{this.renderContributor('sponsors', exp.sponsor2, exp.date)}</TableCell>
               </TableRow>
             )) }
           </TableBody>
@@ -71,13 +87,65 @@ module.exports = createReactClass({
     )
   },
 
-  renderContributor (type, contributor) {
-    if (!contributor) return <span />
+  renderDialog (type, date) {
+    var fn = {
+      'speakers': this.renderSpeakerDialog
+    }[this.state.addType]
+
+    if (!fn) return <div />
+
+    return fn(this.state.addDate)
+  },
+
+  renderSpeakerDialog (date) {
+    var speakers = this.state.allSpeakers.filter(function (speaker) {
+      return !speaker.bookedShows
+    })
 
     return (
-      <a href={`#/${type}/edit/${contributor.id}`}>
-        {contributor.organization || contributor.name}
-      </a>
+      <Dialog onRequestClose={this.closeAddDialog} open>
+        <DialogTitle>Select Speaker</DialogTitle>
+        <div style={{overflowY: 'scroll'}}>
+          <List>
+            { speakers.map((speaker, i) => {
+              return (
+                <ListItem
+                  button
+                  key={speaker.name}
+                  onClick={this.bookContributor.bind(this, 'speaker', speaker, date)} >
+                  <ListItemAvatar style={{marginRight: 20}}>
+                    <Avatar><img src={speaker.avatar} /></Avatar>
+                  </ListItemAvatar>
+                  {speaker.name}: "{truncate(speaker.title)}"
+                </ListItem>
+              )
+            })}
+          </List>
+        </div>
+      </Dialog>
+    )
+  },
+
+  renderContributor (type, contributor, date) {
+    if (!contributor) {
+      return (
+        <Button style={{opacity: 0.3}} onClick={() => {
+          this.setState({
+            addType: type,
+            addDate: date
+          })
+        }} >
+          <AddIcon />
+        </Button>
+      )
+    }
+
+    return (
+      <div>
+        <a href={`#/${type}/edit/${contributor.id}`}>
+          {contributor.organization || contributor.name}
+        </a>
+      </div>
     )
   },
 
@@ -110,8 +178,8 @@ module.exports = createReactClass({
   getList () {
     this.setState({_status: 'LOADING'})
 
-    var concepts = ['speaker', 'host', 'sponsor']
-    map(concepts, api.list, (err, concepts) => {
+    var conceptNames = ['speaker', 'host', 'sponsor']
+    map(conceptNames, api.list, (err, concepts) => {
       if (err) {
         this.setState({_status: 'ERROR'})
         return console.error(err)
@@ -142,11 +210,53 @@ module.exports = createReactClass({
         }
       })
 
-      this.setState({shows: shows, _status: 'READY'})
+      this.setState({
+        shows: shows,
+        allSpeakers: speakers,
+        allSponsors: sponsors,
+        allHosts: hosts,
+        _status: 'READY'
+      })
     })
   },
 
   editShow (name) {
     navigate(`/shows/edit/${name}`)
+  },
+
+  closeAddDialog () {
+    this.setState({
+      addType: null,
+      addDate: null
+    })
+  },
+
+  bookContributor (type, contributor, date) {
+    var bookedDates = (contributor.bookedShows || '').split('\n')
+    bookedDates.push(date)
+
+    contributor.bookedShows = Object.keys(
+      bookedDates.reduce(function (memo, key) {
+        if (key) memo[key] = true
+        return memo
+      }, {})
+    ).join('\n')
+
+    this.setState({_status: 'LOADING', addDate: null, addType: null})
+    api.update(type, contributor, (err, updated) => {
+      if (err) {
+        this.setState({_status: 'ERROR'})
+        return console.error(err)
+      }
+
+      this.getList()
+    })
   }
 })
+
+function truncate (str, len) {
+  len = len || 50
+  if (str.length <= len) return str
+
+  return str.slice(0, len - 3) + '...'
+}
