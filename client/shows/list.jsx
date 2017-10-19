@@ -89,12 +89,72 @@ module.exports = createReactClass({
 
   renderDialog (type, date) {
     var fn = {
+      'hosts': this.renderHostDialog,
+      'sponsors': this.renderSponsorDialog,
       'speakers': this.renderSpeakerDialog
     }[this.state.addType]
 
     if (!fn) return <div />
 
     return fn(this.state.addDate)
+  },
+
+  renderHostDialog (date) {
+    var hosts = this.state.allHosts.filter(function (host) {
+      return !host.bookedShows
+    })
+
+    return (
+      <Dialog onRequestClose={this.closeAddDialog} open>
+        <DialogTitle>Select Host</DialogTitle>
+        <div style={{overflowY: 'scroll'}}>
+          <List>
+            { hosts.map((host, i) => {
+              return (
+                <ListItem
+                  button
+                  key={host.organization}
+                  onClick={this.bookContributor.bind(this, 'host', host, date)} >
+                  <ListItemAvatar style={{marginRight: 20}}>
+                    <Avatar><img src={host.logo} /></Avatar>
+                  </ListItemAvatar>
+                  {host.organization}
+                </ListItem>
+              )
+            })}
+          </List>
+        </div>
+      </Dialog>
+    )
+  },
+
+  renderSponsorDialog (date) {
+    var sponsors = this.state.allSponsors.filter(function (sponsor) {
+      return !sponsor.bookedShows
+    })
+
+    return (
+      <Dialog onRequestClose={this.closeAddDialog} open>
+        <DialogTitle>Select Sponsor</DialogTitle>
+        <div style={{overflowY: 'scroll'}}>
+          <List>
+            { sponsors.map((sponsor, i) => {
+              return (
+                <ListItem
+                  button
+                  key={sponsor.organization}
+                  onClick={this.bookContributor.bind(this, 'sponsor', sponsor, date)} >
+                  <ListItemAvatar style={{marginRight: 20}}>
+                    <Avatar><img src={sponsor.logo} /></Avatar>
+                  </ListItemAvatar>
+                  {sponsor.organization}
+                </ListItem>
+              )
+            })}
+          </List>
+        </div>
+      </Dialog>
+    )
   },
 
   renderSpeakerDialog (date) {
