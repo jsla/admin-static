@@ -100,9 +100,7 @@ module.exports = createReactClass({
   },
 
   renderHostDialog (date) {
-    var hosts = this.state.allHosts.filter(function (host) {
-      return !host.bookedShows
-    })
+    var hosts = this.state.allHosts
 
     return (
       <Dialog onRequestClose={this.closeAddDialog} open>
@@ -129,9 +127,7 @@ module.exports = createReactClass({
   },
 
   renderSponsorDialog (date) {
-    var sponsors = this.state.allSponsors.filter(function (sponsor) {
-      return !sponsor.bookedShows
-    })
+    var sponsors = this.state.allSponsors
 
     return (
       <Dialog onRequestClose={this.closeAddDialog} open>
