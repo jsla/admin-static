@@ -194,9 +194,12 @@ module.exports = createReactClass({
     })
   },
 
-  editSpeaker (event) {
+  editSpeaker (event, checked) {
     var speaker = this.state.speaker
-    speaker[event.target.name] = event.target.value
+    var {name, value} = event.target
+    if (name === 'isArchived') value = checked
+
+    speaker[name] = value
 
     this.setState({ speaker })
   },
