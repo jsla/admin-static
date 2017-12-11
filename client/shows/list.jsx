@@ -244,16 +244,18 @@ module.exports = createReactClass({
       var [speakers, hosts, sponsors] = concepts
 
       var shows = showDates.map(function (date) {
+        var month = date.slice(0, 7)
         var speakerMatch = speakers.filter(function (speaker) {
-          return (speaker.bookedShows || '').match(date)
+          return (speaker.bookedShows || '').match(month)
         })
 
         var hostMatch = hosts.filter(function (host) {
-          return (host.bookedShows || '').match(date)
+          console.log('host.organization', host.organization)
+          return (host.bookedShows || '').match(month)
         })
 
         var sponsorMatch = sponsors.filter(function (sponsor) {
-          return (sponsor.bookedShows || '').match(date)
+          return (sponsor.bookedShows || '').match(month)
         })
 
         return {
