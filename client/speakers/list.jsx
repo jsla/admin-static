@@ -17,7 +17,9 @@ module.exports = createReactClass({
       speakers: [],
       filters: {
         hideBooked: true,
-        hideArchived: true
+        hideArchived: true,
+        onlyBooked: false,
+        onlyArchived: false
       },
       _status: 'READY'
     }
@@ -74,6 +76,26 @@ module.exports = createReactClass({
             />
           }
           label='Hide Archived'
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              name='onlyBooked'
+              checked={filters.onlyBooked}
+              onChange={this.changeFilter}
+            />
+          }
+          label='Only Booked'
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              name='onlyArchived'
+              checked={filters.onlyArchived}
+              onChange={this.changeFilter}
+            />
+          }
+          label='Only Archived'
         />
       </FormGroup>
     )
@@ -151,13 +173,15 @@ module.exports = createReactClass({
   },
 
   filterSpeakers (speakers) {
-    var {hideBooked, hideArchived} = this.state.filters
+    var {hideBooked, hideArchived, onlyBooked, onlyArchived} = this.state.filters
     return speakers
       .sort(function (a, b) { return a.name > b.name })
       .filter(function (speaker) {
         var visible = true
         if (hideBooked && speaker.bookedShows) visible = false
         if (hideArchived && speaker.isArchived) visible = false
+        if (onlyBooked && !speaker.bookedShows) visible = false
+        if (onlyArchived && !speaker.isArchived) visible = false
         return visible
       })
   },
