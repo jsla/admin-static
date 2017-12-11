@@ -59,7 +59,7 @@ module.exports = createReactClass({
                   <img src={host.logo} style={{width: 50}} />
                 </TableCell>
                 <TableCell>{host.organization}</TableCell>
-                <TableCell>{host.capacity.slice(0, 9)}</TableCell>
+                <TableCell>{(host.capacity || '').slice(0, 9)}</TableCell>
                 <TableCell>{host.hasProjector}</TableCell>
                 <TableCell>{host.hasMicrophone}</TableCell>
               </TableRow>
