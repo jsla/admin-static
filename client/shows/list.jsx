@@ -155,7 +155,7 @@ module.exports = createReactClass({
 
   renderSpeakerDialog (date) {
     var speakers = this.state.allSpeakers.filter(function (speaker) {
-      return !speaker.bookedShows
+      return speaker.name && !speaker.bookedShows && !speaker.isArchived
     })
 
     return (
