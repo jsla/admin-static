@@ -91,6 +91,14 @@ module.exports = createReactClass({
               onClick={this.handleDrawerClose}>
               <ListItemText primary='Shows' />
             </ListItem>
+            <ListItem
+              button
+              component='a'
+              href='https://wiki.js.la'
+              target='_blank'
+              onClick={this.handleDrawerClose}>
+              <ListItemText primary='Wiki' />
+            </ListItem>
           </List>
           <Divider />
         </Drawer>
