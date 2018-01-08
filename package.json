@@ -1,6 +1,6 @@
 {
   "name": "admin-static",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "description": "js.la admin front-end",
   "main": "index.js",
   "dependencies": {
