@@ -13,7 +13,8 @@ module.exports = {
   updateSponsor,
   updateHost,
   list,
-  update
+  update,
+  triggerDeploy
 }
 
 function getHost (id, cb) { get('host', id, cb) }
@@ -56,4 +57,9 @@ function get (type, id, cb) {
 function update (type, item, cb) {
   var url = `${API}/api/update/${type}/${item.id}`
   auth.post(url, item, cb)
+}
+
+function triggerDeploy (cb) {
+  var url = `${API}/api/trigger-site-deploy`
+  auth.get(url, cb)
 }

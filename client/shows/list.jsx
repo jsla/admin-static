@@ -22,7 +22,8 @@ module.exports = createReactClass({
       allSpeakers: [],
       allSponsors: [],
       allHosts: [],
-      _status: 'READY'
+      _status: 'READY',
+      _deployStatus: 'READY'
     }
   },
 
@@ -33,6 +34,8 @@ module.exports = createReactClass({
   render () {
     return (
       <div style={{padding: 40}}>
+        { this.renderDeploy() }
+
         <h1>Shows List</h1>
 
         { {
@@ -42,6 +45,19 @@ module.exports = createReactClass({
         }[this.state._status]() }
       </div>
     )
+  },
+
+  renderDeploy () {
+    var button = {
+      READY: (
+        <Button raised color='accent' onClick={this.triggerDeploy}>
+          Deploy js.la
+        </Button>
+      ),
+      SENT: <Button disabled>Done!</Button>
+    }[this.state._deployStatus]
+
+    return <div style={{float: 'right', marginTop: 21.4333}}>{button}</div>
   },
 
   renderMain () {
@@ -229,6 +245,11 @@ module.exports = createReactClass({
         <CircularProgress size={100} />
       </div>
     )
+  },
+
+  triggerDeploy () {
+    this.setState({_deployStatus: 'SENT'})
+    api.triggerDeploy()
   },
 
   getList () {
