@@ -250,7 +250,6 @@ module.exports = createReactClass({
         })
 
         var hostMatch = hosts.filter(function (host) {
-          console.log('host.organization', host.organization)
           return (host.bookedShows || '').match(month)
         })
 
