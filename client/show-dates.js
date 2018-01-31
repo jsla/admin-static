@@ -9,7 +9,7 @@ function getDates (n) {
   var thisMonth
   var lastThurs
   var lastMonth = -1
-  var d = resetDate(new Date())
+  var d = resetDate(new Date(Date.now() - (30 * 24 * 3600 * 1000)))
 
   while (dates.length < n) {
     d = incrementDate(d)
