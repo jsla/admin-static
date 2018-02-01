@@ -130,6 +130,22 @@ module.exports = createReactClass({
           value={months.join(', ') || ''} />
 
         <TextField
+          label='Talk YouTube URL'
+          name='youtubeUrl'
+          margin='normal'
+          fullWidth
+          value={this.state.speaker.youtubeUrl || ''}
+          onChange={this.editSpeaker} />
+
+        <TextField
+          label='Talk YouTube Image URL'
+          name='youtubeImageUrl'
+          margin='normal'
+          fullWidth
+          value={this.state.speaker.youtubeImageUrl || ''}
+          onChange={this.editSpeaker} />
+
+        <TextField
           label='Notes'
           onChange={this.editSpeaker}
           name='notes'
