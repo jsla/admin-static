@@ -76,6 +76,14 @@ module.exports = createReactClass({
           value={this.state.host.email || ''} />
 
         <TextField
+          label='Number'
+          onChange={this.changeHost}
+          name='number'
+          margin='normal'
+          style={{marginRight: 10}}
+          value={this.state.host.number || ''} />
+
+        <TextField
           label='Capacity'
           onChange={this.changeHost}
           name='capacity'

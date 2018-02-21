@@ -80,6 +80,14 @@ module.exports = createReactClass({
           onChange={this.editSpeaker} />
 
         <TextField
+          label='Phone'
+          name='phone'
+          margin='normal'
+          style={{marginRight: 10}}
+          value={this.state.speaker.phone || ''}
+          onChange={this.editSpeaker} />
+
+        <TextField
           label='Github'
           name='github'
           margin='normal'

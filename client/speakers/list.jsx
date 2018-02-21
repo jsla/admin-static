@@ -112,6 +112,7 @@ module.exports = createReactClass({
               <TableCell>Avatar</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Title</TableCell>
+              <TableCell>Number</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -126,6 +127,7 @@ module.exports = createReactClass({
                 </TableCell>
                 <TableCell>{speaker.name}</TableCell>
                 <TableCell>{speaker.title}</TableCell>
+                <TableCell>{speaker.phone || 'needed'}</TableCell>
               </TableRow>
             )) }
           </TableBody>
