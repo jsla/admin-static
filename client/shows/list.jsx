@@ -171,7 +171,7 @@ module.exports = createReactClass({
 
   renderSpeakerDialog (date) {
     var speakers = this.state.allSpeakers.filter(function (speaker) {
-      return speaker.name && !speaker.bookedShows && !speaker.isArchived
+      return speaker.name && !speaker.bookedShows && !speaker.isArchived && speaker.submitState === 'done'
     })
 
     return (
@@ -334,6 +334,7 @@ module.exports = createReactClass({
 
 function truncate (str, len) {
   len = len || 50
+  if (!str) return ''
   if (str.length <= len) return str
 
   return str.slice(0, len - 3) + '...'
