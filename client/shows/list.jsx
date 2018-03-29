@@ -213,7 +213,9 @@ module.exports = createReactClass({
     }
 
     return (
-      <div>
+      <div style={{textAlign: 'center'}}>
+        <img src={contributor.logo || contributor.avatar} style={{width: 50}} />
+        <br />
         <a href={`#/${type}/edit/${contributor.id}`}>
           {contributor.organization || contributor.name}
         </a>
