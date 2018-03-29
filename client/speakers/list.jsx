@@ -227,7 +227,14 @@ module.exports = createReactClass({
 
   changeFilter (evt, enabled) {
     var {filters} = this.state
-    filters[evt.target.name] = enabled
+    var name = evt.target.name
+
+    var type = name.slice(0, 4)
+    var other = (type === 'only' ? 'hide' : 'only') + name.slice(4)
+
+    filters[name] = enabled
+    if (enabled) filters[other] = false
+
     this.setState({filters})
   }
 })
