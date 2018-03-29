@@ -18,8 +18,10 @@ module.exports = createReactClass({
       filters: {
         hideBooked: true,
         hideArchived: true,
+        hideUnsubmitted: true,
         onlyBooked: false,
-        onlyArchived: false
+        onlyArchived: false,
+        onlyUnsubmitted: false
       },
       _status: 'READY'
     }
@@ -57,46 +59,71 @@ module.exports = createReactClass({
 
     return (
       <FormGroup>
-        <FormControlLabel
-          control={
-            <Switch
-              name='hideBooked'
-              checked={filters.hideBooked}
-              onChange={this.changeFilter}
+        <div style={{float: 'left', marginRight: 20}}>
+          <FormControlLabel
+            control={
+              <Switch
+                name='hideBooked'
+                checked={filters.hideBooked}
+                onChange={this.changeFilter}
+                />
+            }
+            label='Hide Booked'
             />
-          }
-          label='Hide Booked'
-        />
-        <FormControlLabel
-          control={
-            <Switch
-              name='hideArchived'
-              checked={filters.hideArchived}
-              onChange={this.changeFilter}
+          <FormControlLabel
+            control={
+              <Switch
+                name='hideArchived'
+                checked={filters.hideArchived}
+                onChange={this.changeFilter}
+                />
+            }
+            label='Hide Archived'
             />
-          }
-          label='Hide Archived'
-        />
-        <FormControlLabel
-          control={
-            <Switch
-              name='onlyBooked'
-              checked={filters.onlyBooked}
-              onChange={this.changeFilter}
+          <FormControlLabel
+            control={
+              <Switch
+                name='hideUnsubmitted'
+                checked={filters.hideUnsubmitted}
+                onChange={this.changeFilter}
+                />
+            }
+            label='Hide Unsubmitted'
             />
-          }
-          label='Only Booked'
-        />
-        <FormControlLabel
-          control={
-            <Switch
-              name='onlyArchived'
-              checked={filters.onlyArchived}
-              onChange={this.changeFilter}
+        </div>
+
+        <div>
+          <FormControlLabel
+            control={
+              <Switch
+                name='onlyBooked'
+                checked={filters.onlyBooked}
+                onChange={this.changeFilter}
+                />
+            }
+            label='Only Booked'
             />
-          }
-          label='Only Archived'
-        />
+          <FormControlLabel
+            control={
+              <Switch
+                name='onlyArchived'
+                checked={filters.onlyArchived}
+                onChange={this.changeFilter}
+                />
+            }
+            label='Only Archived'
+            />
+          <FormControlLabel
+            control={
+              <Switch
+                name='onlyUnsubmitted'
+                checked={filters.onlyUnsubmitted}
+                onChange={this.changeFilter}
+                />
+            }
+            label='Only Unsubmitted'
+            />
+        </div>
       </FormGroup>
     )
   },
@@ -173,15 +200,23 @@ module.exports = createReactClass({
   },
 
   filterSpeakers (speakers) {
-    var {hideBooked, hideArchived, onlyBooked, onlyArchived} = this.state.filters
+    var { hideBooked,
+      hideArchived,
+      hideUnsubmitted,
+      onlyBooked,
+      onlyArchived,
+      onlyUnsubmitted} = this.state.filters
+
     return speakers
       .sort(function (a, b) { return a.name > b.name })
       .filter(function (speaker) {
         var visible = true
         if (hideBooked && speaker.bookedShows) visible = false
         if (hideArchived && speaker.isArchived) visible = false
+        if (hideUnsubmitted && speaker.submitState !== 'done') visible = false
         if (onlyBooked && !speaker.bookedShows) visible = false
         if (onlyArchived && !speaker.isArchived) visible = false
+        if (onlyUnsubmitted && speaker.submitState === 'done') visible = false
         return visible
       })
   },
