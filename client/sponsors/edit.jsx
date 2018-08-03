@@ -42,6 +42,16 @@ module.exports = createReactClass({
     return (
       <div>
 
+        <div style={{
+          boxShadow: '0 0 2 rgba(0,0,0,.2)',
+          backgroundColor: 'white',
+          backgroundImage: `url(${this.state.sponsor.logo || ''})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          width: 275,
+          height: 100
+        }} />
+
         <TextField
           label='Booked Shows'
           onChange={this.changeSponsor}
