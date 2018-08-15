@@ -54,6 +54,16 @@ module.exports = createReactClass({
           label='Archived'
         />
 
+        <div style={{
+          boxShadow: '0 0 2 rgba(0,0,0,.2)',
+          backgroundColor: 'white',
+          backgroundImage: `url(${this.state.speaker.avatar || ''})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          width: 100,
+          height: 100
+        }} />
+
         <TextField
           label='Booked Shows'
           onChange={this.editSpeaker}
@@ -144,6 +154,16 @@ module.exports = createReactClass({
           fullWidth
           value={this.state.speaker.youtubeImageUrl || ''}
           onChange={this.editSpeaker} />
+
+        <div style={{
+          boxShadow: '0 0 2 rgba(0,0,0,.2)',
+          backgroundColor: 'white',
+          backgroundImage: `url(${this.state.speaker.youtubeImageUrl || ''})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          width: 478,
+          height: 280
+        }} />
 
         <TextField
           label='Notes'
