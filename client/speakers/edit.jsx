@@ -121,6 +121,13 @@ module.exports = createReactClass({
           value={this.state.speaker.avatar || ''}
           onChange={this.editSpeaker} />
 
+        <TextField
+          label='Last Updated'
+          name='updatedAt'
+          margin='normal'
+          style={{marginRight: 10}}
+          value={this.state.speaker.updatedAt || ''} />
+
         <br />
 
         <TextField
