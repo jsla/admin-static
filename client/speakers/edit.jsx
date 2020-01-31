@@ -148,6 +148,15 @@ module.exports = createReactClass({
           onChange={this.editSpeaker} />
 
         <TextField
+          label='Intro'
+          name='intro'
+          margin='normal'
+          multiline
+          fullWidth
+          value={this.state.speaker.intro || ''}
+          onChange={this.editSpeaker} />
+
+        <TextField
           label='Dates Available'
           name='dates'
           margin='normal'
